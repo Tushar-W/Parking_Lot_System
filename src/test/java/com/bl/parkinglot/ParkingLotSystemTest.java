@@ -1,6 +1,7 @@
 package com.bl.parkinglot;
 
 import com.bl.exception.ParkingLotSystemException;
+import com.bl.model.ParkingLotOwner;
 import com.bl.model.ParkingLotSystem;
 import org.junit.Assert;
 import org.junit.Before;
@@ -13,7 +14,7 @@ public class ParkingLotSystemTest {
     @Before
     public void setUp() throws Exception {
         vehicle = new Object();
-        parkingLotSystem = new ParkingLotSystem();
+        parkingLotSystem = new ParkingLotSystem(1);
     }
 
     @Test
@@ -56,5 +57,11 @@ public class ParkingLotSystemTest {
         } catch (ParkingLotSystemException e) {
             Assert.assertEquals(ParkingLotSystemException.ExceptionType.PARKING_LOTS_IS_EMPTY,e.type);
         }
+    }
+
+    @Test
+    public void givenParkingLotStatus_WhenParkingLotIsFull_ShouldInformTheOwner() {
+        ParkingLotOwner owner = new ParkingLotOwner();
+        parkingLotSystem.registerOwner(owner);
     }
 }
