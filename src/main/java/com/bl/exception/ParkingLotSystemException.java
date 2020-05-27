@@ -5,7 +5,7 @@ public class ParkingLotSystemException extends Throwable {
      * enum for take constants Exception Types
      */
     public enum ExceptionType{
-        PARKING_LOTS_IS_EMPTY, PARKING_LOT_FULL;
+        PARKING_LOTS_IS_EMPTY, PARKING_LOT_FULL, VEHICLE_ALREADY_PARKED;
     }
     /**
      * object of enum class ExceptionType

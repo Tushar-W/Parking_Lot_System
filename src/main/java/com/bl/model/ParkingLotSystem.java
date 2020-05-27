@@ -7,6 +7,9 @@ package com.bl.model;
 
 import com.bl.exception.ParkingLotSystemException;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class ParkingLotSystem {
     /**
      * field vehicle use to store vehicle
@@ -14,8 +17,8 @@ public class ParkingLotSystem {
      * field currentCapacity use to store current capacity of parking lot
      */
     private Object vehicle;
+    private List vehicles;
     private int actualCapacity;
-    private int currentCapacity;
     private ParkingLotOwner owner;
 
     /**
@@ -23,7 +26,7 @@ public class ParkingLotSystem {
      * @param capacity
      */
     public ParkingLotSystem(int capacity) {
-        this.currentCapacity = 0;
+        this.vehicles = new ArrayList();
         this.actualCapacity = capacity;
     }
     /**
@@ -32,13 +35,15 @@ public class ParkingLotSystem {
      * @return true or false
      */
     public void park(Object vehicle) throws ParkingLotSystemException {
-        if (this.currentCapacity == this.actualCapacity) {
+        if (this.vehicles.size() == this.actualCapacity) {
             owner.capacityIsFull();
             throw new ParkingLotSystemException("PARKING_LOT_IS_FULL",
                                                 ParkingLotSystemException.ExceptionType.PARKING_LOT_FULL);
         }
-        this.currentCapacity++;
-        this.vehicle = vehicle;
+        if (isVehicleParked(vehicle))
+            throw new ParkingLotSystemException("VEHICLE_IS_ALREADY_PARKED",
+                                                 ParkingLotSystemException.ExceptionType.VEHICLE_ALREADY_PARKED);
+        this.vehicles.add(vehicle);
 
     }
     /**
@@ -49,18 +54,18 @@ public class ParkingLotSystem {
     public void unPark(Object vehicle) throws ParkingLotSystemException {
         if (this.vehicle == null)
             throw new ParkingLotSystemException("PARKING_LOT_IS_EMPTY", ParkingLotSystemException.ExceptionType.PARKING_LOTS_IS_EMPTY);
-        if (this.vehicle.equals(vehicle))
-            this.vehicle = null;
+        if (this.vehicles.contains(vehicle))
+            this.vehicles.remove(vehicle);
     }
 
     public boolean isVehicleParked(Object vehicle) {
-        if (this.vehicle.equals(vehicle))
+        if (this.vehicles.contains(vehicle))
             return true;
         return false;
     }
 
     public boolean isVehicleUnParked(Object vehicle) {
-        if (this.vehicle.equals(vehicle))
+        if (this.vehicles.contains(vehicle))
             return true;
         return false;
     }

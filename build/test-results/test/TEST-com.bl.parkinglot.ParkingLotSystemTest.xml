@@ -1,7 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="com.bl.parkinglot.ParkingLotSystemTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2020-05-27T16:47:31" hostname="DESKTOP-JEVG340" time="0.022">
+<testsuite name="com.bl.parkinglot.ParkingLotSystemTest" tests="6" skipped="0" failures="0" errors="0" timestamp="2020-05-27T17:38:37" hostname="DESKTOP-JEVG340" time="0.009">
   <properties/>
-  <testcase name="givenParkingLotStatus_WhenParkingLotIsFull_ShouldInformTheOwner" classname="com.bl.parkinglot.ParkingLotSystemTest" time="0.022"/>
+  <testcase name="givenParkingLotStatus_WhenParkingLotIsFull_ShouldInformTheOwner" classname="com.bl.parkinglot.ParkingLotSystemTest" time="0.004"/>
+  <testcase name="givenAVehicle_WhenParkingLotIsEmpty_ShouldReturnThrowException" classname="com.bl.parkinglot.ParkingLotSystemTest" time="0.0"/>
+  <testcase name="givenAVehicle_WhenParked_ShouldReturnTrue" classname="com.bl.parkinglot.ParkingLotSystemTest" time="0.001"/>
+  <testcase name="givenCapacity_WhenCapacityIs2_ShouldBeAbleToPark2Vehicle" classname="com.bl.parkinglot.ParkingLotSystemTest" time="0.0"/>
+  <testcase name="givenAVehicle_WhenUnParked_ShouldReturnTrue" classname="com.bl.parkinglot.ParkingLotSystemTest" time="0.001"/>
+  <testcase name="givenAVehicle_WhenAlreadyParked_ShouldReturnThrowException" classname="com.bl.parkinglot.ParkingLotSystemTest" time="0.001"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>
