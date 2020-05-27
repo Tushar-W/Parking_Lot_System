@@ -18,15 +18,22 @@ public class ParkingLotSystem {
      */
     private Object vehicle;
     private List vehicles;
+    private List<ParkingLotObserver> observers;
     private int actualCapacity;
-    private ParkingLotOwner owner;
-
     /**
      * constructor to take one input as capacity
      * @param capacity
      */
     public ParkingLotSystem(int capacity) {
+        this.observers = new ArrayList<>();
         this.vehicles = new ArrayList();
+        this.actualCapacity = capacity;
+    }
+    public void registerParkingLotObserver(ParkingLotObserver observer) {
+        this.observers.add(observer);
+    }
+
+    public void setCapacity(int capacity) {
         this.actualCapacity = capacity;
     }
     /**
@@ -36,7 +43,9 @@ public class ParkingLotSystem {
      */
     public void park(Object vehicle) throws ParkingLotSystemException {
         if (this.vehicles.size() == this.actualCapacity) {
-            owner.capacityIsFull();
+            for (ParkingLotObserver observer: observers) {
+                observer.capacityIsFull();
+            }
             throw new ParkingLotSystemException("PARKING_LOT_IS_FULL",
                                                 ParkingLotSystemException.ExceptionType.PARKING_LOT_FULL);
         }
@@ -68,13 +77,5 @@ public class ParkingLotSystem {
         if (this.vehicles.contains(vehicle))
             return true;
         return false;
-    }
-
-    public void registerOwner(ParkingLotOwner owner) {
-        this.owner = owner;
-    }
-
-    public void setCapacity(int capacity) {
-        this.actualCapacity = capacity;
     }
 }

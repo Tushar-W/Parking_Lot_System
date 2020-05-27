@@ -1,6 +1,6 @@
 package com.bl.model;
 
-public class ParkingLotOwner implements ParkingLotObserver {
+public class AirportSecurity implements ParkingLotObserver {
     private boolean capacityIsFull;
 
     public void capacityIsFull() {
