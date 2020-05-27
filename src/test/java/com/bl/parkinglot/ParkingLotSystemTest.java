@@ -48,4 +48,13 @@ public class ParkingLotSystemTest {
             e.printStackTrace();
         }
     }
+
+    @Test
+    public void givenAVehicle_WhenParkingLotIsEmpty_ShouldReturnThrowException() {
+        try {
+            parkingLotSystem.unPark(vehicle);
+        } catch (ParkingLotSystemException e) {
+            Assert.assertEquals(ParkingLotSystemException.ExceptionType.PARKING_LOTS_IS_EMPTY,e.type);
+        }
+    }
 }
