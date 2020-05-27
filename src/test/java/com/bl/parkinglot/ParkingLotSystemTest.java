@@ -1,6 +1,7 @@
 package com.bl.parkinglot;
 
 import com.bl.exception.ParkingLotSystemException;
+import com.bl.model.AirportSecurity;
 import com.bl.model.ParkingLotOwner;
 import com.bl.model.ParkingLotSystem;
 import org.junit.Assert;
@@ -61,7 +62,7 @@ public class ParkingLotSystemTest {
         ParkingLotOwner owner = new ParkingLotOwner();
         Object vehicle2 = new Object();
         Object vehicle3 = new Object();
-        parkingLotSystem.registerOwner(owner);
+        parkingLotSystem.registerParkingLotObserver(owner);
         try {
             parkingLotSystem.park(vehicle);
             parkingLotSystem.park(vehicle2);
@@ -84,4 +85,19 @@ public class ParkingLotSystemTest {
         } catch (ParkingLotSystemException e) {
         }
     }
-}
+
+    @Test
+    public void givenParkingLotStatus_WhenParkingLotIsFull_ShouldInformTheAirportSecurity() {
+        AirportSecurity airportSecurity = new AirportSecurity();
+        Object vehicle2 = new Object();
+        Object vehicle3 = new Object();
+        parkingLotSystem.registerParkingLotObserver(airportSecurity);
+        try {
+            parkingLotSystem.park(vehicle);
+            parkingLotSystem.park(vehicle2);
+            parkingLotSystem.park(vehicle3);
+        } catch (ParkingLotSystemException e) { }
+        boolean capacityFull = airportSecurity.isCapacityFull();
+        Assert.assertTrue(capacityFull);
+    }
+    }
