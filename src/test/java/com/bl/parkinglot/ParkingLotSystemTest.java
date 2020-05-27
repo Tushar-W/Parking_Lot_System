@@ -23,9 +23,7 @@ public class ParkingLotSystemTest {
             parkingLotSystem.park(vehicle);
             boolean isParked = parkingLotSystem.isVehicleParked(vehicle);
             Assert.assertTrue(isParked);
-        } catch (ParkingLotSystemException e) {
-            e.printStackTrace();
-        }
+        } catch (ParkingLotSystemException e) { }
     }
 
     @Test
@@ -45,9 +43,7 @@ public class ParkingLotSystemTest {
             parkingLotSystem.unPark(vehicle);
             boolean isUnParked = parkingLotSystem.isVehicleUnParked(vehicle);
             Assert.assertTrue(isUnParked);
-        } catch (ParkingLotSystemException e) {
-            e.printStackTrace();
-        }
+        } catch (ParkingLotSystemException e) { }
     }
 
     @Test
@@ -63,5 +59,11 @@ public class ParkingLotSystemTest {
     public void givenParkingLotStatus_WhenParkingLotIsFull_ShouldInformTheOwner() {
         ParkingLotOwner owner = new ParkingLotOwner();
         parkingLotSystem.registerOwner(owner);
+        try {
+            parkingLotSystem.park(vehicle);
+            parkingLotSystem.park(new Object());
+        } catch (ParkingLotSystemException e) { }
+        boolean capacityFull = owner.isCapacityFull();
+        Assert.assertTrue(capacityFull);
     }
 }
