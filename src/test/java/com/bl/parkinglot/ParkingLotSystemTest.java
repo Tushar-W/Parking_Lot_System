@@ -25,7 +25,6 @@ public class ParkingLotSystemTest {
         } catch (ParkingLotSystemException e) {
             e.printStackTrace();
         }
-
     }
 
     @Test
@@ -36,6 +35,17 @@ public class ParkingLotSystemTest {
         } catch (ParkingLotSystemException e) {
             Assert.assertEquals(ParkingLotSystemException.ExceptionType.PARKING_LOT_FULL,e.type);
         }
+    }
 
+    @Test
+    public void givenAVehicle_WhenUnParked_ShouldReturnTrue(){
+        try {
+            parkingLotSystem.park(vehicle);
+            parkingLotSystem.unPark(vehicle);
+            boolean isUnParked = parkingLotSystem.isVehicleUnParked(vehicle);
+            Assert.assertTrue(isUnParked);
+        } catch (ParkingLotSystemException e) {
+            e.printStackTrace();
+        }
     }
 }
