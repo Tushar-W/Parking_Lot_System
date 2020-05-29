@@ -118,4 +118,24 @@ public class ParkingLotSystemTest {
         boolean capacityFull = owner.isCapacityFull();
         Assert.assertFalse(capacityFull);
     }
+
+    @Test
+    public void givenVehicleWithPosition_WhenParkedByPosition_ShouldReturnTrue() {
+        try {
+            parkingLotSystem.park(vehicle[0], 1);
+            boolean vehicleParked = parkingLotSystem.isVehicleParked(vehicle[0]);
+            Assert.assertTrue(vehicleParked);
+        } catch (ParkingLotSystemException e) { }
+
+    }
+
+    @Test
+    public void givenVehicle_WhenVehicleIsFound_ShouldReturnTrue() {
+        try {
+            parkingLotSystem.park(vehicle[0], 1);
+            parkingLotSystem.park(vehicle[1], 2);
+            boolean parked = parkingLotSystem.isVehicleParked(vehicle[1]);
+            Assert.assertTrue(parked);
+        } catch (ParkingLotSystemException e) { }
+    }
 }
