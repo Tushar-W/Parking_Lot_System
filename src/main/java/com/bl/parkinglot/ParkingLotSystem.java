@@ -8,7 +8,9 @@ package com.bl.parkinglot;
 import com.bl.exception.ParkingLotSystemException;
 import com.bl.model.ParkingLotObserver;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class ParkingLotSystem {
     /**
@@ -17,7 +19,7 @@ public class ParkingLotSystem {
      * object observers use to store registered observer
      */
     private int actualCapacity;
-    private List vehicles;
+    private Map<Integer, Object> vehicles;
     private List<ParkingLotObserver> observers;
     /**
      * constructor to take one input as capacity
@@ -32,9 +34,9 @@ public class ParkingLotSystem {
      * method to initialize all slots in parking lot
      */
     public void initializeSlotsInParkingLot(){
-        this.vehicles = new ArrayList();
-        for (int i=0; i<actualCapacity-1; i++){
-            vehicles.add(null);
+        this.vehicles = new HashMap<>();
+        for (int slot=0; slot<actualCapacity-1; slot++){
+            vehicles.put(slot, null);
         }
     }
     /**
@@ -52,8 +54,8 @@ public class ParkingLotSystem {
         this.actualCapacity = capacity;
     }
     /**
-     * method to park given vehicle in parking lot
-     * @param vehicle
+     * method to park given vehicle and slot in parking lot
+     * @param vehicle, slot
      * is given vehicle already parked or parking lot is full then
      * @throws ParkingLotSystemException
      */
@@ -68,7 +70,7 @@ public class ParkingLotSystem {
             throw new ParkingLotSystemException("PARKING_LOT_IS_FULL",
                                                 ParkingLotSystemException.ExceptionType.PARKING_LOT_FULL);
         }
-        this.vehicles.add(slot, vehicle);
+        this.vehicles.put(slot, vehicle);
     }
     /**
      * method unPark given vehicle from parking lot
@@ -80,7 +82,7 @@ public class ParkingLotSystem {
         if (this.vehicles.isEmpty())
             throw new ParkingLotSystemException("PARKING_LOT_IS_EMPTY",
                     ParkingLotSystemException.ExceptionType.PARKING_LOTS_IS_EMPTY);
-        if (this.vehicles.contains(vehicle)) {
+        if (this.vehicles.containsValue(vehicle)) {
             this.vehicles.remove(vehicle);
             for (ParkingLotObserver observer : observers) {
                 observer.capacityIsAvailable();
@@ -93,7 +95,7 @@ public class ParkingLotSystem {
      * @return true or false
      */
     public boolean isVehicleParked(Object vehicle) {
-        if (this.vehicles.contains(vehicle))
+        if (this.vehicles.containsValue(vehicle))
             return true;
         return false;
     }
@@ -103,7 +105,7 @@ public class ParkingLotSystem {
      * @return true or false
      */
     public boolean isVehicleUnParked(Object vehicle) {
-        if (this.vehicles.contains(vehicle))
+        if (this.vehicles.containsValue(vehicle))
             return false;
         return true;
     }

@@ -2,6 +2,7 @@ package com.bl.model;
 
 public class ParkingLotOwner implements ParkingLotObserver {
     private boolean isCapacityIsFull;
+
     @Override
     public void capacityIsFull() {
         this.isCapacityIsFull = true;
@@ -10,7 +11,6 @@ public class ParkingLotOwner implements ParkingLotObserver {
     @Override
     public void capacityIsAvailable() {
         this.isCapacityIsFull = false;
-
     }
 
     public boolean isCapacityFull() {
