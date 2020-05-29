@@ -1,13 +1,19 @@
 package com.bl.model;
 
 public class ParkingLotOwner implements ParkingLotObserver {
-    private boolean capacityIsFull;
-
+    private boolean isCapacityIsFull;
+    @Override
     public void capacityIsFull() {
-        this.capacityIsFull = true;
+        this.isCapacityIsFull = true;
+    }
+
+    @Override
+    public void capacityIsAvailable() {
+        this.isCapacityIsFull = false;
+
     }
 
     public boolean isCapacityFull() {
-        return this.capacityIsFull;
+        return this.isCapacityIsFull;
     }
 }

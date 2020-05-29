@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="com.bl.parkinglot.ParkingLotSystemTest" tests="7" skipped="0" failures="0" errors="0" timestamp="2020-05-27T18:47:45" hostname="DESKTOP-JEVG340" time="0.008">
+<testsuite name="com.bl.parkinglot.ParkingLotSystemTest" tests="10" skipped="0" failures="0" errors="0" timestamp="2020-05-28T23:34:27" hostname="DESKTOP-JEVG340" time="0.009">
   <properties/>
   <testcase name="givenParkingLotStatus_WhenParkingLotIsFull_ShouldInformTheOwner" classname="com.bl.parkinglot.ParkingLotSystemTest" time="0.003"/>
   <testcase name="givenAVehicle_WhenParkingLotIsEmpty_ShouldReturnThrowException" classname="com.bl.parkinglot.ParkingLotSystemTest" time="0.0"/>
   <testcase name="givenAVehicle_WhenParked_ShouldReturnTrue" classname="com.bl.parkinglot.ParkingLotSystemTest" time="0.0"/>
   <testcase name="givenCapacity_WhenCapacityIs2_ShouldBeAbleToPark2Vehicle" classname="com.bl.parkinglot.ParkingLotSystemTest" time="0.0"/>
   <testcase name="givenParkingLotStatus_WhenParkingLotIsFull_ShouldInformTheAirportSecurity" classname="com.bl.parkinglot.ParkingLotSystemTest" time="0.001"/>
-  <testcase name="givenAVehicle_WhenUnParked_ShouldReturnTrue" classname="com.bl.parkinglot.ParkingLotSystemTest" time="0.001"/>
+  <testcase name="givenAVehicle_WhenNotParkedAndTryToUnPark_ShouldReturnThrowException" classname="com.bl.parkinglot.ParkingLotSystemTest" time="0.0"/>
+  <testcase name="givenAVehicle_WhenUnParked_ShouldReturnTrue" classname="com.bl.parkinglot.ParkingLotSystemTest" time="0.0"/>
+  <testcase name="givenParkingLotStatus_WhenParkingLotSpaceIsAvailableAfterFull_ShouldReturnTrue" classname="com.bl.parkinglot.ParkingLotSystemTest" time="0.0"/>
+  <testcase name="givenAVehicle_WhenParkedAfterParkingLotFull_ShouldReturnThrowException" classname="com.bl.parkinglot.ParkingLotSystemTest" time="0.0"/>
   <testcase name="givenAVehicle_WhenAlreadyParked_ShouldReturnThrowException" classname="com.bl.parkinglot.ParkingLotSystemTest" time="0.0"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
