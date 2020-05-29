@@ -26,7 +26,16 @@ public class ParkingLotSystem {
     public ParkingLotSystem(int capacity) {
         this.actualCapacity = capacity;
         this.observers = new ArrayList<>();
+        initializeSlotsInParkingLot();
+    }
+    /**
+     * method to initialize all slots in parking lot
+     */
+    public void initializeSlotsInParkingLot(){
         this.vehicles = new ArrayList();
+        for (int i=0; i<actualCapacity-1; i++){
+            vehicles.add(null);
+        }
     }
     /**
      * method to registered parking lot observer and add into observers list
@@ -48,7 +57,7 @@ public class ParkingLotSystem {
      * is given vehicle already parked or parking lot is full then
      * @throws ParkingLotSystemException
      */
-    public void park(Object vehicle) throws ParkingLotSystemException {
+    public void park(Object vehicle, int slot) throws ParkingLotSystemException {
         if (isVehicleParked(vehicle))
             throw new ParkingLotSystemException("VEHICLE_IS_ALREADY_PARKED",
                     ParkingLotSystemException.ExceptionType.VEHICLE_ALREADY_PARKED);
@@ -59,7 +68,7 @@ public class ParkingLotSystem {
             throw new ParkingLotSystemException("PARKING_LOT_IS_FULL",
                                                 ParkingLotSystemException.ExceptionType.PARKING_LOT_FULL);
         }
-        this.vehicles.add(vehicle);
+        this.vehicles.add(slot, vehicle);
     }
     /**
      * method unPark given vehicle from parking lot
@@ -71,9 +80,6 @@ public class ParkingLotSystem {
         if (this.vehicles.isEmpty())
             throw new ParkingLotSystemException("PARKING_LOT_IS_EMPTY",
                     ParkingLotSystemException.ExceptionType.PARKING_LOTS_IS_EMPTY);
-        if (isVehicleUnParked(vehicle))
-            throw new ParkingLotSystemException("VEHICLE_IS_NOT_PARKED",
-                                                ParkingLotSystemException.ExceptionType.VEHICLE_NOT_PARKED);
         if (this.vehicles.contains(vehicle)) {
             this.vehicles.remove(vehicle);
             for (ParkingLotObserver observer : observers) {
