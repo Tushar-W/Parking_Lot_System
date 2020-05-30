@@ -20,6 +20,8 @@ public class ParkingLotSystem {
      * object observers use to store registered observer
      */
     private int actualCapacity;
+    private  int totalSlots;
+    int i=0, j=0, count=0;
     private String parkDateAndTime;
     private Map<Integer, Object> vehicles;
     private List<ParkingLotObserver> observers;
@@ -32,8 +34,9 @@ public class ParkingLotSystem {
      * constructor to take one input as capacity
      * @param capacity
      */
-    public ParkingLotSystem(int capacity) {
+    public ParkingLotSystem(int capacity, int totalSlots) {
         this.actualCapacity = capacity;
+        this.totalSlots = totalSlots;
         this.observers = new ArrayList<>();
         initializeSlotsInParkingLot();
     }
@@ -42,7 +45,7 @@ public class ParkingLotSystem {
      */
     public void initializeSlotsInParkingLot(){
         this.vehicles = new HashMap<>();
-        for (int slot=1; slot<=actualCapacity; slot++){
+        for (int slot=0; slot<actualCapacity; slot++){
             vehicles.put(slot, null);
         }
     }
@@ -66,7 +69,8 @@ public class ParkingLotSystem {
      * is given vehicle already parked or parking lot is full then
      * @throws ParkingLotSystemException
      */
-    public void park(Object vehicle, int slot) throws ParkingLotSystemException {
+    public void park(Object vehicle) throws ParkingLotSystemException {
+        int slot = 0;
         if (isVehicleParked(vehicle))
             throw new ParkingLotSystemException("VEHICLE_IS_ALREADY_PARKED",
                                                  ParkingLotSystemException.ExceptionType.VEHICLE_ALREADY_PARKED);
@@ -77,6 +81,7 @@ public class ParkingLotSystem {
             throw new ParkingLotSystemException("PARKING_LOT_IS_FULL",
                                                 ParkingLotSystemException.ExceptionType.PARKING_LOT_FULL);
         }
+        slot = this.getParkingSlots();
         this.vehicles.put(slot, (vehicle +" "+ this.getTimeAndDate()));
     }
     /**
@@ -116,6 +121,39 @@ public class ParkingLotSystem {
         if (this.vehicles.containsValue(vehicle))
             return false;
         return true;
+    }
+    /**
+     * method to get parking slots for use to park vehicle evenly
+     * @return slot no
+     */
+    private int getParkingSlots() {
+            int slotNo;
+            if (count == totalSlots) {
+                i = i + 1;
+                j = 0;
+                count = 0;
+            }
+            slotNo = i + ((actualCapacity / totalSlots) * j);
+            j = j + 1;
+            count = count + 1;
+            return slotNo;
+    }
+    /**
+     * method to get parked vehicle slot no
+     * @param vehicle
+     * @return vehicle key in int
+     * @throws ParkingLotSystemException
+     */
+    public int getVehicleKey(Object vehicle) throws ParkingLotSystemException {
+        try {
+            Integer vehicleKey = vehicles.keySet()
+                    .stream()
+                    .filter(key -> vehicle.equals(vehicles.get(key)))
+                    .findFirst().get();
+            return vehicleKey;
+        } catch (NoSuchElementException e) {
+            throw new ParkingLotSystemException("VEHICLE_NOT_FOUND", ParkingLotSystemException.ExceptionType.VEHICLE_NOT_FOUND);
+        }
     }
     /**
      * method to get date in string format

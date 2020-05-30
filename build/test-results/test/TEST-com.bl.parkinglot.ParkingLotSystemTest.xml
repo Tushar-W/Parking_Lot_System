@@ -1,18 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="com.bl.parkinglot.ParkingLotSystemTest" tests="12" skipped="0" failures="0" errors="0" timestamp="2020-05-30T01:55:26" hostname="DESKTOP-JEVG340" time="0.029">
+<testsuite name="com.bl.parkinglot.ParkingLotSystemTest" tests="13" skipped="0" failures="0" errors="0" timestamp="2020-05-30T09:02:35" hostname="DESKTOP-JEVG340" time="0.107">
   <properties/>
-  <testcase name="givenParkingLotStatus_WhenParkingLotIsFull_ShouldInformTheOwner" classname="com.bl.parkinglot.ParkingLotSystemTest" time="0.004"/>
-  <testcase name="givenAVehicleAndParkedTime_WhenVehicleIsParked_ShouldReturnTrue" classname="com.bl.parkinglot.ParkingLotSystemTest" time="0.001"/>
+  <testcase name="givenParkingLotStatus_WhenParkingLotIsFull_ShouldInformTheOwner" classname="com.bl.parkinglot.ParkingLotSystemTest" time="0.009"/>
+  <testcase name="givenAVehicleAndParkedTime_WhenVehicleIsParked_ShouldReturnTrue" classname="com.bl.parkinglot.ParkingLotSystemTest" time="0.002"/>
   <testcase name="givenAVehicle_WhenParked_ShouldReturnTrue" classname="com.bl.parkinglot.ParkingLotSystemTest" time="0.0"/>
+  <testcase name="givenVehicleList_whenVehicleParkedEvenly_ShouldReturnTrue" classname="com.bl.parkinglot.ParkingLotSystemTest" time="0.029"/>
   <testcase name="givenCapacity_WhenCapacityIs2_ShouldBeAbleToPark2Vehicle" classname="com.bl.parkinglot.ParkingLotSystemTest" time="0.0"/>
-  <testcase name="givenParkingLotStatus_WhenParkingLotIsFull_ShouldInformTheAirportSecurity" classname="com.bl.parkinglot.ParkingLotSystemTest" time="0.002"/>
-  <testcase name="givenAVehicle_WhenUnParked_ShouldReturnTrue" classname="com.bl.parkinglot.ParkingLotSystemTest" time="0.001"/>
+  <testcase name="givenParkingLotStatus_WhenParkingLotIsFull_ShouldInformTheAirportSecurity" classname="com.bl.parkinglot.ParkingLotSystemTest" time="0.005"/>
+  <testcase name="givenAVehicle_WhenUnParked_ShouldReturnTrue" classname="com.bl.parkinglot.ParkingLotSystemTest" time="0.005"/>
   <testcase name="givenAVehicle_WhenUnParkAfterParkingLotIsEmpty_ShouldReturnThrowException" classname="com.bl.parkinglot.ParkingLotSystemTest" time="0.0"/>
-  <testcase name="givenVehicle_WhenVehicleIsFound_ShouldReturnTrue" classname="com.bl.parkinglot.ParkingLotSystemTest" time="0.001"/>
+  <testcase name="givenVehicle_WhenVehicleIsFound_ShouldReturnTrue" classname="com.bl.parkinglot.ParkingLotSystemTest" time="0.004"/>
   <testcase name="givenAVehicle_WhenParkedAfterParkingLotFull_ShouldReturnThrowException" classname="com.bl.parkinglot.ParkingLotSystemTest" time="0.001"/>
-  <testcase name="givenVehicleWithPosition_WhenParkedByPosition_ShouldReturnTrue" classname="com.bl.parkinglot.ParkingLotSystemTest" time="0.005"/>
-  <testcase name="givenAVehicle_WhenAlreadyParked_ShouldReturnThrowException" classname="com.bl.parkinglot.ParkingLotSystemTest" time="0.002"/>
-  <testcase name="givenParkingLotStatus_WhenParkingLotHasSpaceAgain_ShouldReturnTrue" classname="com.bl.parkinglot.ParkingLotSystemTest" time="0.004"/>
+  <testcase name="givenVehicleWithPosition_WhenParkedByPosition_ShouldReturnTrue" classname="com.bl.parkinglot.ParkingLotSystemTest" time="0.016"/>
+  <testcase name="givenAVehicle_WhenAlreadyParked_ShouldReturnThrowException" classname="com.bl.parkinglot.ParkingLotSystemTest" time="0.001"/>
+  <testcase name="givenParkingLotStatus_WhenParkingLotHasSpaceAgain_ShouldReturnTrue" classname="com.bl.parkinglot.ParkingLotSystemTest" time="0.008"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>
