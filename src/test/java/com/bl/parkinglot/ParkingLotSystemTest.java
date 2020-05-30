@@ -8,19 +8,21 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.List;
+
 import static org.junit.Assert.assertEquals;
 
 public class ParkingLotSystemTest {
     ParkingLotSystem parkingLotSystem = null;
-    Object[] vehicle = null;
+    VehicleDetail[] vehicle = null;
 
     @Before
     public void setUp() throws Exception {
         int capacity = 10;
         parkingLotSystem = new ParkingLotSystem(capacity, 2);
-        vehicle = new Object[capacity];
+        vehicle = new VehicleDetail[capacity];
         for (int i = 0; i < capacity; i++)
-            vehicle[i] = new Object();
+            vehicle[i] = new VehicleDetail();
     }
 
     @Test
@@ -87,7 +89,7 @@ public class ParkingLotSystemTest {
             parkingLotSystem.park(vehicle[7], VehicleDriver.NORMAL_DRIVER);
             parkingLotSystem.park(vehicle[8], VehicleDriver.NORMAL_DRIVER);
             parkingLotSystem.park(vehicle[9], VehicleDriver.NORMAL_DRIVER);
-            parkingLotSystem.park(new Object(), VehicleDriver.NORMAL_DRIVER);
+            parkingLotSystem.park(new VehicleDetail(), VehicleDriver.NORMAL_DRIVER);
         } catch (ParkingLotSystemException e) { }
         boolean capacityFull = owner.isCapacityFull();
         Assert.assertTrue(capacityFull);
@@ -121,7 +123,7 @@ public class ParkingLotSystemTest {
             parkingLotSystem.park(vehicle[7], VehicleDriver.NORMAL_DRIVER);
             parkingLotSystem.park(vehicle[8], VehicleDriver.NORMAL_DRIVER);
             parkingLotSystem.park(vehicle[9], VehicleDriver.NORMAL_DRIVER);
-            parkingLotSystem.park(new Object(), VehicleDriver.NORMAL_DRIVER);
+            parkingLotSystem.park(new VehicleDetail(), VehicleDriver.NORMAL_DRIVER);
         } catch (ParkingLotSystemException e) { }
         boolean capacityFull = airportSecurity.isCapacityFull();
         Assert.assertTrue(capacityFull);
@@ -196,12 +198,12 @@ public class ParkingLotSystemTest {
             parkingLotSystem.park(this.vehicle[3], VehicleDriver.NORMAL_DRIVER);
             parkingLotSystem.park(this.vehicle[4], VehicleDriver.NORMAL_DRIVER);
             Assert.assertEquals(0, vehicleSlot);
-            Assert.assertEquals(5, vehicleSlot1);
+            Assert.assertEquals(1, vehicleSlot1);
         } catch (ParkingLotSystemException e) { }
     }
 
     @Test
-    public void givenLargeVehicle_WhenLargeVehicleParked_ItShouldReturnTrue() {
+    public void givenLargeVehicle_WhenLargeVehicleParked_ShouldReturnTrue() {
         try {
             parkingLotSystem.park(this.vehicle[0], VehicleDriver.LARGE_VEHICLE_DRIVER);
             boolean isParked = parkingLotSystem.isVehicleParked(vehicle[0]);
@@ -210,6 +212,17 @@ public class ParkingLotSystemTest {
             boolean isParked1 = parkingLotSystem.isVehicleParked(vehicle[2]);
             parkingLotSystem.park(this.vehicle[3], VehicleDriver.NORMAL_DRIVER);
             Assert.assertTrue(isParked && isParked1);
+        } catch (ParkingLotSystemException e) {
+        }
+    }
+
+    @Test
+    public void givenVehicleWithColor_WhenVehicleIsPark_ShouldReturnTrue() {
+        try {
+            parkingLotSystem.park(new VehicleDetail(), VehicleDriver.NORMAL_DRIVER);
+            parkingLotSystem.park(new VehicleDetail("White"), VehicleDriver.NORMAL_DRIVER);
+            List<VehicleDetail> list = parkingLotSystem.getVehicleByAttribute("White");
+            Assert.assertEquals("White", list.get(0).color);
         } catch (ParkingLotSystemException e) {
         }
     }
