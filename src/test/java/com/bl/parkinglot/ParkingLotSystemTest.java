@@ -13,7 +13,7 @@ public class ParkingLotSystemTest {
 
     @Before
     public void setUp() throws Exception {
-        int capacity = 2;
+        int capacity = 3;
         parkingLotSystem = new ParkingLotSystem(capacity);
         vehicle = new Object[capacity];
         for (int i = 0; i < capacity; i++)
@@ -61,7 +61,7 @@ public class ParkingLotSystemTest {
     }
 
     @Test
-    public void givenAVehicle_WhenParkingLotIsEmpty_ShouldReturnThrowException() {
+    public void givenAVehicle_WhenUnParkAfterParkingLotIsEmpty_ShouldReturnThrowException() {
         try {
             parkingLotSystem.unPark(vehicle[0]);
         } catch (ParkingLotSystemException e) {
@@ -77,6 +77,7 @@ public class ParkingLotSystemTest {
             parkingLotSystem.park(vehicle[0], 1);
             parkingLotSystem.park(vehicle[1], 2);
             parkingLotSystem.park(vehicle[2], 3);
+            parkingLotSystem.park(new Object(), 4);
         } catch (ParkingLotSystemException e) { }
         boolean capacityFull = owner.isCapacityFull();
         Assert.assertTrue(capacityFull);
@@ -103,17 +104,21 @@ public class ParkingLotSystemTest {
             parkingLotSystem.park(vehicle[0], 1);
             parkingLotSystem.park(vehicle[1], 2);
             parkingLotSystem.park(vehicle[2], 3);
+            parkingLotSystem.park(new Object(), 4);
         } catch (ParkingLotSystemException e) { }
         boolean capacityFull = airportSecurity.isCapacityFull();
         Assert.assertTrue(capacityFull);
     }
 
     @Test
-    public void givenParkingLotStatus_WhenParkingLotSpaceIsAvailableAfterFull_ShouldReturnTrue() {
+    public void givenParkingLotStatus_WhenParkingLotHasSpaceAgain_ShouldReturnTrue() {
         ParkingLotOwner owner = new ParkingLotOwner();
         parkingLotSystem.registerParkingLotObserver(owner);
         try {
             parkingLotSystem.park(vehicle[0], 1);
+            parkingLotSystem.park(vehicle[1], 2);
+            parkingLotSystem.park(vehicle[2], 3);
+            parkingLotSystem.unPark(vehicle[2]);
         } catch (ParkingLotSystemException e) { }
         boolean capacityFull = owner.isCapacityFull();
         Assert.assertFalse(capacityFull);
@@ -138,4 +143,16 @@ public class ParkingLotSystemTest {
             Assert.assertTrue(parked);
         } catch (ParkingLotSystemException e) { }
     }
+
+    @Test
+    public void givenAVehicleAndParkedTime_WhenVehicleIsParked_ShouldReturnTrue() {
+        try {
+            parkingLotSystem.park(vehicle[0], 1);
+            String timeAndDate = new ParkingLotSystem().getTimeAndDate();
+            parkingLotSystem.unPark(vehicle[0]);
+            Assert.assertEquals(timeAndDate, new ParkingLotOwner().getDateAndTime());
+        } catch (ParkingLotSystemException e) {
+        }
+    }
+
 }
