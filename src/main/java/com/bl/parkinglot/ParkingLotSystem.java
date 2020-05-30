@@ -12,6 +12,7 @@ import com.bl.model.ParkingLotOwner;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class ParkingLotSystem {
     /**
@@ -25,7 +26,7 @@ public class ParkingLotSystem {
     int i=0, j=0, count=0;
     private String parkDateAndTime;
     Object obj[] = null;
-    private Map<Integer, Object> vehicles;
+    private Map<Integer, VehicleDetail> vehicles;
     private List<ParkingLotObserver> observers;
     /**
      * o-argument constructor
@@ -49,7 +50,6 @@ public class ParkingLotSystem {
         this.vehicles = new HashMap<>();
         obj = new Object[this.actualCapacity];
         for (int slot=0; slot<actualCapacity; slot++){
-            vehicles.put(slot, null);
             obj[slot] = new LinkedList();
         }
     }
@@ -73,7 +73,7 @@ public class ParkingLotSystem {
      * is given vehicle already parked or parking lot is full then
      * @throws ParkingLotSystemException
      */
-    public void park(Object vehicle, VehicleDriver driverStatus) throws ParkingLotSystemException {
+    public void park(VehicleDetail vehicle, VehicleDriver driverStatus) throws ParkingLotSystemException {
         int slot = 0;
         if (isVehicleParked(vehicle))
             throw new ParkingLotSystemException("VEHICLE_IS_ALREADY_PARKED",
@@ -90,9 +90,10 @@ public class ParkingLotSystem {
         if (driverStatus.equals(VehicleDriver.NORMAL_DRIVER) || driverStatus.equals(VehicleDriver.LARGE_VEHICLE_DRIVER))
            slot = this.getParkingSlots();
 
-        this.vehicles.put(slot, (vehicle +" "+ this.getTimeAndDate()));
+        this.vehicles.put(slot, vehicle);
         LinkedList list = (LinkedList) obj[slot];
         list.add(this.vehicles.get(slot));
+        new ParkingLotOwner().setDateAndTime(this.getTimeAndDate());
     }
     /**
      * method unPark given vehicle from parking lot
@@ -100,7 +101,7 @@ public class ParkingLotSystem {
      * is given vehicle not parked and try to unPark or parking lot is empty then
      * @throws ParkingLotSystemException
      */
-    public void unPark(Object vehicle) throws ParkingLotSystemException {
+    public void unPark(VehicleDetail vehicle) throws ParkingLotSystemException {
         if (this.vehicles.isEmpty())
             throw new ParkingLotSystemException("PARKING_LOT_IS_EMPTY",
                                                  ParkingLotSystemException.ExceptionType.PARKING_LOTS_IS_EMPTY);
@@ -109,7 +110,6 @@ public class ParkingLotSystem {
             LinkedList list = (LinkedList) obj[getVehicleKey(vehicle)];
             if (list.contains(vehicle))
                 list.remove(vehicle);
-            new ParkingLotOwner().setDateAndTime(this.getTimeAndDate());
             for (ParkingLotObserver observer : observers) {
                 observer.capacityIsAvailable();
             }
@@ -121,7 +121,7 @@ public class ParkingLotSystem {
      * @return true or false
      */
     public boolean isVehicleParked(Object vehicle) {
-        if (this.vehicles.containsValue((vehicle + " " + this.parkDateAndTime)))
+        if (this.vehicles.containsValue(vehicle))
             return true;
         return false;
     }
@@ -195,5 +195,14 @@ public class ParkingLotSystem {
         DateFormat dateFormat = new SimpleDateFormat("dd/MM/yy hh:mm:ss");
         parkDateAndTime = dateFormat.format(date);
         return parkDateAndTime;
+    }
+
+    public List<VehicleDetail> getVehicleByAttribute(String vehicleAttribute) {
+        List<VehicleDetail> list = vehicles.entrySet()
+                .stream()
+                .filter(value -> vehicles.get(value.getKey()).toString().contains(vehicleAttribute))
+                .map(value -> value.getValue())
+                .collect(Collectors.toList());
+        return list;
     }
 }
