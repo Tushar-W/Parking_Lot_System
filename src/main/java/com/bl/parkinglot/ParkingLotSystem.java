@@ -23,6 +23,7 @@ public class ParkingLotSystem {
     private  int totalSlots;
     int i=0, j=0, count=0;
     private String parkDateAndTime;
+    Object obj[] = null;
     private Map<Integer, Object> vehicles;
     private List<ParkingLotObserver> observers;
     /**
@@ -45,8 +46,10 @@ public class ParkingLotSystem {
      */
     public void initializeSlotsInParkingLot(){
         this.vehicles = new HashMap<>();
+        obj = new Object[this.actualCapacity];
         for (int slot=0; slot<actualCapacity; slot++){
             vehicles.put(slot, null);
+            obj[slot] = new LinkedList();
         }
     }
     /**
@@ -69,7 +72,7 @@ public class ParkingLotSystem {
      * is given vehicle already parked or parking lot is full then
      * @throws ParkingLotSystemException
      */
-    public void park(Object vehicle) throws ParkingLotSystemException {
+    public void park(Object vehicle, Boolean driverStatus) throws ParkingLotSystemException {
         int slot = 0;
         if (isVehicleParked(vehicle))
             throw new ParkingLotSystemException("VEHICLE_IS_ALREADY_PARKED",
@@ -81,8 +84,14 @@ public class ParkingLotSystem {
             throw new ParkingLotSystemException("PARKING_LOT_IS_FULL",
                                                 ParkingLotSystemException.ExceptionType.PARKING_LOT_FULL);
         }
-        slot = this.getParkingSlots();
+        if (driverStatus != null)
+            slot = this.getSlotNoForHandicapDriver();
+        if (driverStatus == null)
+           slot = this.getParkingSlots();
+
         this.vehicles.put(slot, (vehicle +" "+ this.getTimeAndDate()));
+        LinkedList list = (LinkedList) obj[slot];
+        list.add(this.vehicles.get(slot));
     }
     /**
      * method unPark given vehicle from parking lot
@@ -96,6 +105,9 @@ public class ParkingLotSystem {
                                                  ParkingLotSystemException.ExceptionType.PARKING_LOTS_IS_EMPTY);
         if (isVehicleParked(vehicle)) {
             this.vehicles.remove(vehicle);
+            LinkedList list = (LinkedList) obj[getVehicleKey(vehicle)];
+            if (list.contains(vehicle))
+                list.remove(vehicle);
             new ParkingLotOwner().setDateAndTime(this.getTimeAndDate());
             for (ParkingLotObserver observer : observers) {
                 observer.capacityIsAvailable();
@@ -108,7 +120,7 @@ public class ParkingLotSystem {
      * @return true or false
      */
     public boolean isVehicleParked(Object vehicle) {
-        if (this.vehicles.containsValue((vehicle +" "+ this.parkDateAndTime)))
+        if (this.vehicles.containsValue((vehicle + " " + this.parkDateAndTime)))
             return true;
         return false;
     }
@@ -127,16 +139,34 @@ public class ParkingLotSystem {
      * @return slot no
      */
     private int getParkingSlots() {
-            int slotNo;
-            if (count == totalSlots) {
-                i = i + 1;
-                j = 0;
-                count = 0;
-            }
-            slotNo = i + ((actualCapacity / totalSlots) * j);
-            j = j + 1;
-            count = count + 1;
+        int slotNo;
+        if (count == totalSlots) {
+            i = i + 1;
+            j = 0;
+            count = 0;
+        }
+        slotNo = i + ((actualCapacity / totalSlots) * j);
+        LinkedList list = (LinkedList) obj[slotNo];
+        if (list.isEmpty())
             return slotNo;
+        j = j + 1;
+        count = count + 1;
+        slotNo = this.getParkingSlots();
+        return slotNo;
+    }
+    /**
+     * method to get slot number for park vehicle for handicap driver
+     * @return int(slot number)
+     */
+    private int getSlotNoForHandicapDriver() {
+        for (int i = 0; i < actualCapacity; i++) {
+            LinkedList list = (LinkedList) obj[i];
+            if (list.isEmpty()) {
+                int slotNo = i;
+                return slotNo;
+            }
+        }
+        return 0;
     }
     /**
      * method to get parked vehicle slot no
