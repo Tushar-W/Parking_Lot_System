@@ -5,6 +5,7 @@
  *********************************************************************/
 package com.bl.parkinglot;
 
+import com.bl.enums.VehicleDriver;
 import com.bl.exception.ParkingLotSystemException;
 import com.bl.model.ParkingLotObserver;
 import com.bl.model.ParkingLotOwner;
@@ -72,7 +73,7 @@ public class ParkingLotSystem {
      * is given vehicle already parked or parking lot is full then
      * @throws ParkingLotSystemException
      */
-    public void park(Object vehicle, Boolean driverStatus) throws ParkingLotSystemException {
+    public void park(Object vehicle, VehicleDriver driverStatus) throws ParkingLotSystemException {
         int slot = 0;
         if (isVehicleParked(vehicle))
             throw new ParkingLotSystemException("VEHICLE_IS_ALREADY_PARKED",
@@ -84,9 +85,9 @@ public class ParkingLotSystem {
             throw new ParkingLotSystemException("PARKING_LOT_IS_FULL",
                                                 ParkingLotSystemException.ExceptionType.PARKING_LOT_FULL);
         }
-        if (driverStatus != null)
+        if (driverStatus.equals(VehicleDriver.HANDICAP_DRIVER))
             slot = this.getSlotNoForHandicapDriver();
-        if (driverStatus == null)
+        if (driverStatus.equals(VehicleDriver.NORMAL_DRIVER) || driverStatus.equals(VehicleDriver.LARGE_VEHICLE_DRIVER))
            slot = this.getParkingSlots();
 
         this.vehicles.put(slot, (vehicle +" "+ this.getTimeAndDate()));
